@@ -104,23 +104,34 @@ if selected == 'Used_cars':
 
     st.success(Price_predict)
 
-if selected== 'BMI':
+if selected == 'BMI':
     st.title('BMI Classification')
-    
-    Gender = st.slectbox('เพศ', gender_map)
-    Height = st.text_input('ส่วนสูง')
-    Weight = st.text_input('ส่วนสูง')
+
+    Gender = st.selectbox('เพศ', list(gender_map.keys()))
+    Height = st.text_input('ส่วนสูง (cm)')
+    Weight = st.text_input('น้ำหนัก (kg)')
     BMI_prediction = ''
-    
+
     if st.button('Predict'):
-        Riding_prediction = bmi_model.predict([[
-            gneder_map[Gender],
+        BMI_prediction = bmi_model.predict([[
+            gender_map[Gender],
             float(Height),
             float(Weight),
-            ]])
-        if Riding_prediction[0]==1:
-            Riding_prediction = 'Owner'
-        else:
-            Riding_prediction = 'Non Owner'
-    st.success(Riding_prediction)
+        ]])
+
+        index = BMI_prediction[0]
+
+        bmi_label = {
+            0: 'Extremely Weak',
+            1: 'Weak',
+            2: 'Normal',
+            3: 'Overweight',
+            4: 'Obesity',
+            5: 'Extreme Obesity'
+        }
+
+        BMI_prediction = f'Index: {index} - {bmi_label[index]}'
+
+    st.success(BMI_prediction)
+
 
