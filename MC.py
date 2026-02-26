@@ -51,6 +51,12 @@ transmission_map = {
     'Automatic': 0,
     'Manual': 1
 }
+
+gender_map = {
+    'Female': 0,
+    'Male': 1
+}
+
 with st.sidebar:
     selected = option_menu('Prediction',
                            ['Ridingmower','Used_cars','BMI'])
@@ -101,16 +107,20 @@ if selected == 'Used_cars':
 if selected== 'BMI':
     st.title('BMI Classification')
     
-    Income = st.text_input('Income')
-    LotSize = st.text_input('LotSize')
-    Riding_prediction = ''
+    Gender = st.slectbox('เพศ', gender_map)
+    Height = st.text_input('ส่วนสูง')
+    Weight = st.text_input('ส่วนสูง')
+    BMI_prediction = ''
+    
     if st.button('Predict'):
-        Riding_prediction = riding_model.predict([[
-            float(Income),
-            float(LotSize)
+        Riding_prediction = bmi_model.predict([[
+            gneder_map[Gender],
+            float(Height),
+            float(Weight),
             ]])
         if Riding_prediction[0]==1:
             Riding_prediction = 'Owner'
         else:
             Riding_prediction = 'Non Owner'
     st.success(Riding_prediction)
+
